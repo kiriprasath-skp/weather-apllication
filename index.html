@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ClimaScope — Live Weather</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="title-row">
+      <h1 class="app-title">Clima<span class="dot">Scope</span></h1>
+    </div>
+    <div class="tagline">Live weather, at a glance.</div>
+
+    <div class="controls-row">
+      <form class="search-box" id="searchForm">
+        <input type="text" id="cityInput" placeholder="Search a city…" autocomplete="off" />
+        <button type="submit">Go</button>
+      </form>
+      <button type="button" id="geoBtn" class="ghost-btn">📍 Use my location</button>
+      <div class="unit-switch" id="unitSwitch">
+        <button type="button" data-unit="C" class="active">°C</button>
+        <button type="button" data-unit="F">°F</button>
+      </div>
+    </div>
+    <div class="recent-line" id="recentLine"></div>
+  </header>
+
+  <main>
+    <div class="state" id="loading">Loading weather…</div>
+    <div class="state error" id="errorBox" hidden></div>
+
+    <section id="weatherView" hidden>
+      <div class="hero-grid">
+        <!-- circular temperature gauge -->
+        <div class="gauge-panel">
+          <h1 class="loc-name" id="locName">—</h1>
+          <div class="loc-date" id="dateLine"></div>
+          <div class="gauge-wrap">
+            <svg viewBox="0 0 200 200">
+              <circle class="gauge-track" cx="100" cy="100" r="80"></circle>
+              <circle class="gauge-fill" id="gaugeFill" cx="100" cy="100" r="80"></circle>
+            </svg>
+            <div class="gauge-center">
+              <div class="gauge-temp"><span id="tempBig">—</span>°</div>
+              <div class="gauge-icon" id="gaugeIcon"></div>
+            </div>
+          </div>
+          <div class="condition-text" id="conditionText">—</div>
+          <div class="feels-text">Feels like <span id="feelsLike">—</span>°</div>
+        </div>
+
+        <!-- linear gauges + compass -->
+        <div class="side-panel">
+          <div class="linear-gauge" id="gHumidity"></div>
+          <div class="linear-gauge" id="gUv"></div>
+          <div class="linear-gauge" id="gPressure"></div>
+          <div class="compass-card">
+            <div class="compass-wrap">
+              <svg viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="42" fill="none" stroke="var(--line)" stroke-width="2"></circle>
+                <text x="50" y="13" text-anchor="middle" font-size="9" fill="var(--text-dim)">N</text>
+                <text x="91" y="53" text-anchor="middle" font-size="9" fill="var(--text-dim)">E</text>
+                <text x="50" y="94" text-anchor="middle" font-size="9" fill="var(--text-dim)">S</text>
+                <text x="9" y="53" text-anchor="middle" font-size="9" fill="var(--text-dim)">W</text>
+                <g id="needle" transform="rotate(0,50,50)">
+                  <polygon points="50,16 56,50 50,84 44,50" fill="var(--coral)"></polygon>
+                </g>
+              </svg>
+            </div>
+            <div>
+              <div class="compass-label">Wind, <span id="windDir">—</span></div>
+              <div class="compass-speed"><span id="windSpeed">—</span> km/h</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chart-panel">
+        <div class="panel-head"><h2>Next 24 hours</h2><span>Temperature trend</span></div>
+        <div class="chart-wrap">
+          <svg id="hourlySvg" viewBox="0 0 720 160" preserveAspectRatio="none"></svg>
+          <div class="chart-labels" id="hourlyLabels"></div>
+        </div>
+      </div>
+
+      <div class="daily-panel">
+        <div class="panel-head"><h2>7-day outlook</h2><span id="dailyTz"></span></div>
+        <div id="dailyList"></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
